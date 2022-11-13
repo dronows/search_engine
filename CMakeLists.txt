@@ -24,3 +24,5 @@ add_subdirectory(src)
 add_subdirectory(googlTest) 
 
 configure_file(${CMAKE_SOURCE_DIR}\\resources\\config.json ${CMAKE_BINARY_DIR}\\src)   
+configure_file(${CMAKE_SOURCE_DIR}\\resources\\answer.json ${CMAKE_BINARY_DIR}\\src)   
+configure_file(${CMAKE_SOURCE_DIR}\\resources\\requests.json ${CMAKE_BINARY_DIR}\\src)   
