@@ -36,6 +36,5 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(const std::vector<s
 	if (temp.size() > 5) temp.erase(temp.begin() + 5, temp.end());
 	doc_Rrel.push_back(temp);
   }
-
   return doc_Rrel;
 }

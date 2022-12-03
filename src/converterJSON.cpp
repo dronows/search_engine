@@ -1,7 +1,5 @@
 ﻿
 #include "converterJSON.h"
-#include "json_config.h"
-
 
 //--------------------------------------------------------
 std::vector<std::string> ConverterJSON::GetTextDocuments() {

@@ -43,7 +43,6 @@ int main()
   std::vector<std::vector<RelativeIndex>> doc_indx = server.search(converter.GetRequests());
   converter.putAnswers(doc_indx);
   return 0;
-
 }
 
 
