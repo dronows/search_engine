@@ -1,46 +1,48 @@
-#include "search_engine.h"
+#include "converterJSON.h"
+#include "invertedIndex.h"
+#include "Search_server.h"
 #include <exception>
 
 
 
 int main()
 {
-  
-  std::fstream configFile;
-  configFile.open("config.json");
+  std::ifstream inFile("config.json");
   nlohmann::json configJs;
   try {
-	if (configFile.is_open()) {
-	  configFile >> configJs;
+	if (inFile.is_open()) {
+	  inFile >> configJs;
 	  if (configJs.contains("config")) { std::cout << configJs["config"]["name"] << std::endl; }
 	  else { throw "config file is empty"; }
-	} else {
+	}
+	else {
 	  throw "config file is missing";
 	}
-  } catch (const char* exception) {
+  }
+  catch (const char* exception) {
 	std::cerr << exception << std::endl;
-	configFile.close();
+	inFile.close();
 	return 0;
   }
-  std::cout << "names of files to search for (or accept) :	" << std::endl;
+  inFile.close();
+  std::cout << " a set of words for which you need to find documents. (or accept) :	" << std::endl;
   std::vector<std::string> to_files;
   std::string inStr;
-  std::cin >> inStr;
-  /*
-   while (inStr != "accept") {
+  std::getline(std::cin, inStr);
+  while (inStr != "accept") {
 	to_files.push_back(inStr);
-	std::cin >> inStr;
+	std::getline(std::cin, inStr);
   }
-  
-   ConverterJSON converter;
-  configJs = converter.AddFile(to_files);
-  configFile << configJs;
-  
-  */
-  
- 
-  configFile.close();
-return 0;
+  ConverterJSON converter;
+  converter.AddRequests(to_files);
+  std::vector<std::string> from_files;
+  from_files = converter.GetTextDocuments();
+  InvertedIndex idx;
+  idx.UpdateDocumentBase(from_files);
+  SearchServer server(idx);
+  std::vector<std::vector<RelativeIndex>> doc_indx = server.search(converter.GetRequests());
+  converter.putAnswers(doc_indx);
+  return 0;
 
 }
 

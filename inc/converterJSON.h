@@ -9,15 +9,19 @@
 #include "nlohmann/json.hpp"
 
 
-
+struct RelativeIndex {
+  size_t doc_id;
+  float rank;
+  RelativeIndex(size_t _doc_id, float _rank) : doc_id(_doc_id), rank(_rank) {}
+  bool operator ==(const RelativeIndex& other) const {
+	return (doc_id == other.doc_id && rank == other.rank);
+  }
+};
 
 class ConverterJSON {
 public:
   ConverterJSON() = default;
-  /**метод добавления файлов  в файл config.json
-  */
-  nlohmann::json AddFile(std::vector<std::string> files);
-
+  
   /**
   * Метод получения содержимого файлов
   * @return Возвращает список с содержимым файлов перечисленных
@@ -38,11 +42,7 @@ public:
   /**
   * Положить в файл answers.json результаты поисковых запросов
   */
-  void putAnswers(std::vector<std::vector<std::pair<int, float>>> answers);
-  /**
-  /достать из файла answer.json результаты поисковых запросов
-  */
-  std::vector<std::vector<std::pair<int, float>>>getAnswer();
+  void putAnswers(std::vector<std::vector<RelativeIndex>>answers );
   /**
    положить в файл requests.json список запросов
   */
