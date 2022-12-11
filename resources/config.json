@@ -1,0 +1,12 @@
+{
+  "config": {
+    "max_responces": 5,
+    "name": "MY_SEARCH_ENGINE",
+    "version": 0.1
+  },
+  "files": [
+    "../../../../docs/first.txt",
+    "../../../../docs/second.txt",
+    "../../../../docs/thrid.txt"
+  ]
+}

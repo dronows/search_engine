@@ -1,6 +1,6 @@
 #include "converterJSON.h"
 #include "invertedIndex.h"
-#include "Search_server.h"
+#include "Search_Server.h"
 #include "gtest/gtest.h"
 
 using namespace std;
@@ -51,7 +51,8 @@ TEST(TestCaseInvertedIndex, TestInvertedIndexMissingWord) {
                                          { {1, 1} } };
   TestInvertedIndexFunctionality(docs, requests, expected);
 }
-//========================================================
+
+
 
 TEST(TestCaseSearchServer, TestSimple) {
   const vector<string> docs = {
@@ -71,6 +72,8 @@ TEST(TestCaseSearchServer, TestSimple) {
   std::vector<vector<RelativeIndex>> result = srv.search(request);
   ASSERT_EQ(result, expected);
 }
+
+
 TEST(TestCaseSearchServer, TestTop5) {
   const vector<string> docs = {
   "london is the capital of great britain",
@@ -109,6 +112,7 @@ TEST(TestCaseSearchServer, TestTop5) {
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
+
   return RUN_ALL_TESTS();
 }
 

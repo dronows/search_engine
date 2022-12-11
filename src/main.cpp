@@ -1,6 +1,6 @@
 #include "converterJSON.h"
 #include "invertedIndex.h"
-#include "Search_server.h"
+#include "Search_Server.h"
 #include <exception>
 
 
@@ -35,13 +35,11 @@ int main()
   }
   ConverterJSON converter;
   converter.AddRequests(to_files);
-  std::vector<std::string> from_files;
-  from_files = converter.GetTextDocuments();
+  const std::vector<std::string> from_files = converter.GetTextDocuments();
   InvertedIndex idx;
   idx.UpdateDocumentBase(from_files);
   SearchServer server(idx);
-  std::vector<std::vector<RelativeIndex>> doc_indx = server.search(converter.GetRequests());
-  converter.putAnswers(doc_indx);
+  converter.putAnswers(server.search(converter.GetRequests()));
   return 0;
 }
 

@@ -8,6 +8,7 @@
 #include <map>
 #include "nlohmann/json.hpp"
 
+
 struct RelativeIndex {
   size_t doc_id;
   float rank;
@@ -20,10 +21,11 @@ struct RelativeIndex {
 class ConverterJSON {
 public:
   ConverterJSON() = default;
-  std::vector<std::string> GetTextDocuments();
-  int GetResponsesLimit();
-  std::vector<std::string> GetRequests();
-  void putAnswers(std::vector<std::vector<RelativeIndex>>answers );
-  void AddRequests(std::vector <std::string>& requests);
+  std::vector<std::string> GetTextDocuments() const;
+  // void AddFile(std::vector<std::string> files);
+  std::vector<std::string> GetRequests() const;
+  void putAnswers(const std::vector<std::vector<RelativeIndex>>& answers) const;
+  // std::vector<std::vector<RelativeIndex>>getAnswer();
+  void AddRequests(std::vector <std::string>& requests) const;
 };
 

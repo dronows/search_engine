@@ -5,24 +5,27 @@
 #include <map>
 #include <thread>
 #include <mutex>
+#include <algorithm>
 
 struct Entry {
   size_t doc_id, count = 0;
   Entry(size_t in_doc_id, size_t in_count) : doc_id(in_doc_id), count(in_count) {}
- 
+  // ƒанный оператор необходим дл€ проведени€ тестовых сценариев
   bool operator ==(const Entry& other) const {
 	return (doc_id == other.doc_id &&
 	  count == other.count);
   }
+
 };
 class InvertedIndex {
 public:
   InvertedIndex() = default;
-  void UpdateDocumentBase(std::vector<std::string> input_docs);
-  std::vector<Entry> GetWordCount(const std::string& word);
+  std::string GetWord(const std::string& doc, int& index) const;
+  void UpdateDocumentBase(const std::vector<std::string>& input_docs);
+  std::vector<Entry> GetWordCount(const std::string& word) const;
 private:
-  std::vector<std::string> docs; // список содержимого документов
-  std::map<std::string, std::vector<Entry>> freq_dictionary; // частотны словарь
-
+  std::map<std::string, std::vector<Entry>> freq_dictionary;
+  void ThreadUpdateDoc(const std::string doc, size_t doc_id);
 };
+
 
