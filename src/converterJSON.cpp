@@ -1,9 +1,8 @@
-﻿
-#include "converterJSON.h"
+﻿#include "converterJSON.h"
 
 //--------------------------------------------------------
-std::vector<std::string> ConverterJSON::GetTextDocuments() {
-  std::ifstream inFile("config.json");
+std::vector<std::string> ConverterJSON::GetTextDocuments() const {
+  std::ifstream inFile("../../../../resources/config.json");
   nlohmann::json j;
   inFile >> j;
   inFile.close();
@@ -27,34 +26,23 @@ std::vector<std::string> ConverterJSON::GetTextDocuments() {
 }
 //-----------------------------------------------------------
 
-int ConverterJSON::GetResponsesLimit() {
-  std::ifstream inFile("config.json");
+std::vector<std::string> ConverterJSON::GetRequests() const {
+  std::ifstream inFile("../../../../resources/requests.json");
   nlohmann::json j;
   inFile >> j;
-  int temp = j["config"]["max_responces"];
   inFile.close();
-  return temp;
-}
-//-------------------------------------------------------------
-
-std::vector<std::string> ConverterJSON::GetRequests() {
-  std::ifstream inFile("requests.json");
-  nlohmann::json j;
-  inFile >> j;
-  std::vector<std::string > v = j["requests"];
-  inFile.close();
-  return v;
+  return  j["requests"];
 }
 //---------------------------------------------------------------------------------
-void ConverterJSON::AddRequests(std::vector <std::string>& requests) {
-  std::ofstream outFile("requests.json");
+void ConverterJSON::AddRequests(std::vector <std::string>& requests) const {
+  std::ofstream outFile("../../../../resources/requests.json");
   nlohmann::json js;
   js["requests"] = requests;
   outFile << std::setw(4) << js;
   outFile.close();
 }
 //---------------------------------------------------------------------------------------
-void ConverterJSON::putAnswers(std::vector<std::vector<RelativeIndex>>answers) {
+void ConverterJSON::putAnswers(const std::vector<std::vector<RelativeIndex>>& answers) const {
   nlohmann::json Js;
   int requestsCount = 0;
   for (auto& answer : answers) {
@@ -72,8 +60,10 @@ void ConverterJSON::putAnswers(std::vector<std::vector<RelativeIndex>>answers) {
       }
     }
   }
-  std::ofstream outFile("answer.json");
+  std::ofstream outFile("../../../../resources/answer.json");
   outFile << std::setw(4) << Js;
   outFile.close();
 }
 //-----------------------------------------------------------------------------------------------
+
+

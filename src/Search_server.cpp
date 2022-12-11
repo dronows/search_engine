@@ -1,40 +1,57 @@
-#include"Search_server.h"
-#include <algorithm>
+#include "Search_server.h"
 #include <iostream>
 
-std::vector<std::vector<RelativeIndex>> SearchServer::search(const std::vector<std::string>& queries_input) {
+int SearchServer::GetResponsesLimit() const {
+  std::ifstream inFile("../../../../resources/config.json");
+  nlohmann::json j;
+  inFile >> j;
+  inFile.close();
+  return j["config"]["max_responces"];
+}
+
+//---------------------------------------------------------------------------------
+
+std::map<size_t, size_t> SearchServer::GetABSRelevance(const std::string& request) const {
+  std::map<size_t, size_t> abs_relevance;
+  for (int i = 0; i < request.size(); i++) {
+	std::string word = _index.GetWord(request, i);
+	if (!word.empty()) {
+	  std::vector<Entry> entry = _index.GetWordCount(word);
+	  for (auto& el : entry) {
+		abs_relevance[el.doc_id] += el.count;
+	  }
+	}
+  }
+  return abs_relevance;
+}
+
+//------------------------------------------------------------------------------
+
+std::vector<RelativeIndex> SearchServer::GetRelRelevance(const std::map<size_t, size_t>& abs_relevance, int responces_limit) const {
+  auto Rabs_max = std::max_element(
+	abs_relevance.begin(), abs_relevance.end(),
+	[](const auto& a, const auto& b) {
+	  return a.second < b.second;
+	}
+  );
+  std::vector<RelativeIndex> rel_relevance;
+  for (auto& doc_id : abs_relevance) {
+	float rank = (float)doc_id.second / (float)Rabs_max->second;
+	rel_relevance.push_back({ doc_id.first, rank });
+  }
+  std::sort(rel_relevance.begin(), rel_relevance.end(), [](const auto& a, const auto& b)
+	{return a.rank > b.rank; });
+  if (rel_relevance.size() > responces_limit) rel_relevance.erase(rel_relevance.begin() + responces_limit, rel_relevance.end());
+  return rel_relevance;
+}
+
+//-----------------------------------------------------------------------------------------------
+
+std::vector<std::vector<RelativeIndex>> SearchServer::search(const std::vector<std::string>& queries_input) const {
   std::vector<std::vector<RelativeIndex>>  doc_Rrel;
-  std::map<size_t, size_t> doc_Rabs;
-  for (auto& request : queries_input) {
-	std::map<size_t, size_t> doc_Rabs;
-	for (int i = 0; i < request.size(); i++) {
-	  std::string str;
-	  while (isalnum(request[i]))
-	  {
-		str += request[i++];
-	  }
-	  if (!str.empty()) {
-		std::vector<Entry> entry = _index.GetWordCount(str);
-		for (auto& el : entry) {
-		  doc_Rabs[el.doc_id] += el.count;
-		}
-	  }
-	}
-	auto Rabs_max = std::max_element(
-	  doc_Rabs.begin(), doc_Rabs.end(),
-	  [](const auto& a, const auto& b) {
-		return a.second < b.second;
-	  }
-	);
-	std::vector<RelativeIndex> temp;
-	for (auto& doc : doc_Rabs) {
-	  float rank = (float)doc.second / (float)Rabs_max->second;
-	  temp.push_back({ doc.first, rank });
-	}
-	std::sort(temp.begin(), temp.end(), [](const auto& a, const auto& b)
-	  {return a.rank > b.rank; });
-	if (temp.size() > 5) temp.erase(temp.begin() + 5, temp.end());
-	doc_Rrel.push_back(temp);
+  for (const auto& request : queries_input) {
+	std::map<size_t, size_t> doc_Rabs(GetABSRelevance(request));
+	doc_Rrel.push_back(GetRelRelevance(doc_Rabs, GetResponsesLimit()));
   }
   return doc_Rrel;
 }
