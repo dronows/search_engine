@@ -2,7 +2,7 @@
 #include <iostream>
 
 int SearchServer::GetResponsesLimit() const {
-  std::ifstream inFile("../../../../resources/config.json");
+  std::ifstream inFile("config.json");
   nlohmann::json j;
   inFile >> j;
   inFile.close();

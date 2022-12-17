@@ -19,9 +19,9 @@ void InvertedIndex::ThreadUpdateDoc(const std::string doc, size_t doc_id) {
 	if (!word.empty()) word_freq[word] += 1;
   }
   mtx.lock();
-  for (auto & el : word_freq) {
-	Entry entry = { doc_id, el.second };
-	freq_dictionary[el.first].push_back(entry);
+  for (auto& el : word_freq) {
+	 Entry entry = { doc_id, el.second };
+	 freq_dictionary[el.first].push_back(entry);
   }
   mtx.unlock();
 }

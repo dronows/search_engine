@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------
 std::vector<std::string> ConverterJSON::GetTextDocuments() const {
-  std::ifstream inFile("../../../../resources/config.json");
+  std::ifstream inFile("config.json");
   nlohmann::json j;
   inFile >> j;
   inFile.close();
@@ -27,7 +27,7 @@ std::vector<std::string> ConverterJSON::GetTextDocuments() const {
 //-----------------------------------------------------------
 
 std::vector<std::string> ConverterJSON::GetRequests() const {
-  std::ifstream inFile("../../../../resources/requests.json");
+  std::ifstream inFile("requests.json");
   nlohmann::json j;
   inFile >> j;
   inFile.close();
@@ -35,7 +35,7 @@ std::vector<std::string> ConverterJSON::GetRequests() const {
 }
 //---------------------------------------------------------------------------------
 void ConverterJSON::AddRequests(std::vector <std::string>& requests) const {
-  std::ofstream outFile("../../../../resources/requests.json");
+  std::ofstream outFile("requests.json");
   nlohmann::json js;
   js["requests"] = requests;
   outFile << std::setw(4) << js;
@@ -60,10 +60,8 @@ void ConverterJSON::putAnswers(const std::vector<std::vector<RelativeIndex>>& an
       }
     }
   }
-  std::ofstream outFile("../../../../resources/answer.json");
+  std::ofstream outFile("answer.json");
   outFile << std::setw(4) << Js;
   outFile.close();
 }
-//-----------------------------------------------------------------------------------------------
-
-
+//----------------------------------------------------------------------------------------------

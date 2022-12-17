@@ -7,7 +7,7 @@
 
 int main()
 {
-  std::ifstream inFile("../../../../resources/config.json");
+  std::ifstream inFile("config.json");
   nlohmann::json configJs;
   try {
 	if (inFile.is_open()) {
