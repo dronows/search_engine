@@ -16,22 +16,6 @@
                 }
             ],
             "rezult": true
-        },
-        "requests2": {
-            "rezult": false
-        },
-        "requests3": {
-            "relevance": [
-                {
-                    "docid": 0,
-                    "rank": 1.0
-                },
-                {
-                    "docid": 2,
-                    "rank": 1.0
-                }
-            ],
-            "rezult": true
         }
     }
 }

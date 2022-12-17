@@ -25,3 +25,4 @@ add_subdirectory(googlTest)
 
 # configure_file(${CMAKE_SOURCE_DIR}\\resources\\config.json ${CMAKE_BINARY_DIR}\\src)   
  configure_file(${CMAKE_SOURCE_DIR}\\resources\\config.json ${CMAKE_BINARY_DIR}\\googlTest)   
+
