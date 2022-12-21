@@ -20,7 +20,7 @@ struct Entry {
 class InvertedIndex {
 public:
   InvertedIndex() = default;
-  std::string GetWord(const std::string& doc, int& index) const;
+  std::string GetWord(const std::string& doc, size_t& index) const;
   void UpdateDocumentBase(const std::vector<std::string>& input_docs);
   std::vector<Entry> GetWordCount(const std::string& word) const;
 private:

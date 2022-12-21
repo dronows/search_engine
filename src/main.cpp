@@ -24,17 +24,8 @@ int main()
 	inFile.close();
 	return 0;
   }
-  inFile.close();
-  std::cout << " a set of words for which you need to find documents. (or accept) :	" << std::endl;
-  std::vector<std::string> to_files;
-  std::string inStr;
-  std::getline(std::cin, inStr);
-  while (inStr != "accept") {
-	to_files.push_back(inStr);
-	std::getline(std::cin, inStr);
-  }
+  
   ConverterJSON converter;
-  converter.AddRequests(to_files);
   const std::vector<std::string> from_files = converter.GetTextDocuments();
   InvertedIndex idx;
   idx.UpdateDocumentBase(from_files);

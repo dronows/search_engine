@@ -33,14 +33,7 @@ std::vector<std::string> ConverterJSON::GetRequests() const {
   inFile.close();
   return  j["requests"];
 }
-//---------------------------------------------------------------------------------
-void ConverterJSON::AddRequests(std::vector <std::string>& requests) const {
-  std::ofstream outFile("requests.json");
-  nlohmann::json js;
-  js["requests"] = requests;
-  outFile << std::setw(4) << js;
-  outFile.close();
-}
+
 //---------------------------------------------------------------------------------------
 void ConverterJSON::putAnswers(const std::vector<std::vector<RelativeIndex>>& answers) const {
   nlohmann::json Js;

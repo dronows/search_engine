@@ -13,11 +13,11 @@ int SearchServer::GetResponsesLimit() const {
 
 std::map<size_t, size_t> SearchServer::GetABSRelevance(const std::string& request) const {
   std::map<size_t, size_t> abs_relevance;
-  for (int i = 0; i < request.size(); i++) {
+  for (size_t i = 0; i < request.size(); i++) {
 	std::string word = _index.GetWord(request, i);
 	if (!word.empty()) {
 	  std::vector<Entry> entry = _index.GetWordCount(word);
-	  for (auto& el : entry) {
+	  for (const auto& el : entry) {
 		abs_relevance[el.doc_id] += el.count;
 	  }
 	}
@@ -35,7 +35,7 @@ std::vector<RelativeIndex> SearchServer::GetRelRelevance(const std::map<size_t, 
 	}
   );
   std::vector<RelativeIndex> rel_relevance;
-  for (auto& doc_id : abs_relevance) {
+  for (const auto& doc_id : abs_relevance) {
 	float rank = (float)doc_id.second / (float)Rabs_max->second;
 	rel_relevance.push_back({ doc_id.first, rank });
   }

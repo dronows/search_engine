@@ -24,6 +24,5 @@ public:
   std::vector<std::string> GetTextDocuments() const;
   std::vector<std::string> GetRequests() const;
   void putAnswers(const std::vector<std::vector<RelativeIndex>>& answers) const;
-  void AddRequests(std::vector <std::string>& requests) const;
 };
 

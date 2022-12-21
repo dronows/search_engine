@@ -2,7 +2,7 @@
 
 std::mutex mtx;
 
-std::string InvertedIndex::GetWord(const std::string& doc, int& index) const {
+std::string InvertedIndex::GetWord(const std::string& doc, size_t& index) const {
   std::string str;
   while (isalnum(doc[index]))
   {
@@ -14,12 +14,12 @@ std::string InvertedIndex::GetWord(const std::string& doc, int& index) const {
 
 void InvertedIndex::ThreadUpdateDoc(const std::string doc, size_t doc_id) {
   std::map<std::string, size_t> word_freq;
-  for (int i = 0; i < doc.size(); i++) {
+  for (size_t i = 0; i < doc.size(); i++) {
 	std::string word = GetWord(doc, i);
 	if (!word.empty()) word_freq[word] += 1;
   }
   mtx.lock();
-  for (auto& el : word_freq) {
+  for (const auto& el : word_freq) {
 	 Entry entry = { doc_id, el.second };
 	 freq_dictionary[el.first].push_back(entry);
   }
