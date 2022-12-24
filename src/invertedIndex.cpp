@@ -32,8 +32,7 @@ void InvertedIndex::UpdateDocumentBase(const std::vector<std::string>& input_doc
   size_t doc_id = 0;
   std::vector<std::thread> th;
   for (auto doc : input_docs) {
-	std::thread t(&InvertedIndex::ThreadUpdateDoc, this, doc, doc_id);
-	th.push_back(std::move(t));
+	th.emplace_back(&InvertedIndex::ThreadUpdateDoc, this, doc, doc_id);
 	++doc_id;
   }
 

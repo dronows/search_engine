@@ -1,0 +1,51 @@
+{
+    "answer": {
+        "requests1": {
+            "relevance": [
+                {
+                    "docid": 1,
+                    "rank": 1.0
+                },
+                {
+                    "docid": 0,
+                    "rank": 0.25
+                },
+                {
+                    "docid": 2,
+                    "rank": 0.25
+                }
+            ],
+            "result": true
+        },
+        "requests2": {
+            "relevance": [
+                {
+                    "docid": 0,
+                    "rank": 1.0
+                },
+                {
+                    "docid": 2,
+                    "rank": 0.6000000238418579
+                }
+            ],
+            "result": true
+        },
+        "requests3": {
+            "relevance": [
+                {
+                    "docid": 0,
+                    "rank": 1.0
+                },
+                {
+                    "docid": 2,
+                    "rank": 0.5
+                },
+                {
+                    "docid": 1,
+                    "rank": 0.25
+                }
+            ],
+            "result": true
+        }
+    }
+}

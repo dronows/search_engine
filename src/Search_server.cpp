@@ -5,8 +5,8 @@ int SearchServer::GetResponsesLimit() const {
   std::ifstream inFile("config.json");
   nlohmann::json j;
   inFile >> j;
-  inFile.close();
-  return j["config"]["max_responces"];
+  if (j.contains("max_responces"))   return j["config"]["max_responces"];
+  else return 5;
 }
 
 //---------------------------------------------------------------------------------
