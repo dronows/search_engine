@@ -55,7 +55,6 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(const std::vector<s
   for (const auto& request : queries_input) {
 	std::map<size_t, size_t> doc_Rabs(GetABSRelevance(request));
 	doc_Rrel.push_back(GetRelRelevance(doc_Rabs, GetResponsesLimit()));
-	//std::cout << GetResponsesLimit() << std::endl;
   }
   return doc_Rrel;
 }
