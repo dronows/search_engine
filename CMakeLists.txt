@@ -10,7 +10,6 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/google/googletest.git
   GIT_TAG release-1.12.1
 )
-#include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest) 
 
@@ -23,7 +22,6 @@ set(MY_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 add_subdirectory(src) 
 add_subdirectory(googlTest) 
 
-configure_file(${CMAKE_SOURCE_DIR}\\resources\\config.json ${CMAKE_BINARY_DIR}\\src COPYONLY)   
-configure_file(${CMAKE_SOURCE_DIR}\\resources\\requests.json ${CMAKE_BINARY_DIR}\\src COPYONLY)   
-   
+
+
 

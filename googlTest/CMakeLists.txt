@@ -9,7 +9,9 @@ target_link_libraries(test_search_engine PRIVATE GTest::gtest_main nlohmann_json
 include (GoogleTest) 
 gtest_discover_tests(test_search_engine) 
 
-
+add_custom_command(TARGET test_search_engine POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:test_search_engine>/resources)
 
 
 

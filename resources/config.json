@@ -5,8 +5,8 @@
     "version": 0.1
   },
   "files": [
-    "../../../../docs/first.txt",
-    "../../../../docs/second.txt",
-    "../../../../docs/thrid.txt"
+	"docs/first.txt",
+	"docs/second.txt",
+	"docs/thrid.txt"
   ]
 }

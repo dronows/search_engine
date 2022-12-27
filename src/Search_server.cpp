@@ -1,12 +1,15 @@
 #include "Search_server.h"
 #include <iostream>
 
-int SearchServer::GetResponsesLimit() const {
-  std::ifstream inFile("config.json");
+size_t SearchServer::GetResponsesLimit() const {
+  std::ifstream inFile("resources\\config.json");
   nlohmann::json j;
   inFile >> j;
-  if (j.contains("max_responces"))   return j["config"]["max_responces"];
-  else return 5;
+  if (j["config"].contains("max_responces")) {
+	return j["config"]["max_responces"];
+  } else {
+	return 5;
+  }
 }
 
 //---------------------------------------------------------------------------------
@@ -27,7 +30,7 @@ std::map<size_t, size_t> SearchServer::GetABSRelevance(const std::string& reques
 
 //------------------------------------------------------------------------------
 
-std::vector<RelativeIndex> SearchServer::GetRelRelevance(const std::map<size_t, size_t>& abs_relevance, int responces_limit) const {
+std::vector<RelativeIndex> SearchServer::GetRelRelevance(const std::map<size_t, size_t>& abs_relevance, size_t responces_limit) const {
   auto Rabs_max = std::max_element(
 	abs_relevance.begin(), abs_relevance.end(),
 	[](const auto& a, const auto& b) {
@@ -52,6 +55,7 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(const std::vector<s
   for (const auto& request : queries_input) {
 	std::map<size_t, size_t> doc_Rabs(GetABSRelevance(request));
 	doc_Rrel.push_back(GetRelRelevance(doc_Rabs, GetResponsesLimit()));
+	//std::cout << GetResponsesLimit() << std::endl;
   }
   return doc_Rrel;
 }

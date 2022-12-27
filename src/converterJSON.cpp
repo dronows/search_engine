@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------
 std::vector<std::string> ConverterJSON::GetTextDocuments() const {
-  std::ifstream inFile("config.json");
+  std::ifstream inFile("resources\\config.json");
   nlohmann::json j;
   if (inFile.is_open()) {
     inFile >> j;
@@ -34,7 +34,7 @@ std::vector<std::string> ConverterJSON::GetTextDocuments() const {
 //-----------------------------------------------------------
 
 std::vector<std::string> ConverterJSON::GetRequests() const {
-  std::ifstream inFile("requests.json");
+  std::ifstream inFile("resources\\requests.json");
   if (inFile.is_open()) {
     nlohmann::json j;
     inFile >> j;
@@ -64,7 +64,7 @@ void ConverterJSON::putAnswers(const std::vector<std::vector<RelativeIndex>>& an
       }
     }
   }
-  std::ofstream outFile("answer.json");
+  std::ofstream outFile("resources\\answer.json");
   if (outFile.is_open()) outFile << std::setw(4) << Js;
   else throw "answer file is not created";
 }
