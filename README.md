@@ -1,68 +1,70 @@
 <div id="header" align="center">
   <img src="soft_log.gif" width="300"/>
 </div>
-<h1 align = "center"> локальный поисковой движок релевантных текстовых документов </h1>
+<h1 align = "center">lokale Suchmaschine für relevante Textdokumente </h1>
 
 ---
 
-Поисковый движок представляет из себя консольное приложение
-(исполняемый файл, запускаемый на любом сервере или компьютере),
-осуществляющее поиск и имеющее возможность настройки через файлы формата
-JSON. Применённые в нём решения можно впоследствии встроить в поисковый
-движок работающий на веб.
-## установка
+Die Suchmaschine ist eine Konsolenanwendung
+(eine ausführbare Datei, die auf einem beliebigen Server oder Computer ausgeführt wird),
+durchsuchbar und anpassbar über Formatdateien
+JSON. Sie können die darin verwendeten Lösungen später in die Suche einbetten
+die Engine läuft im Web.
+## Einstellung
 - OS  WINDOWS
-- В проекте используются зависимости: 
 - nlohmann::json
-- googleTest
-- Cmake
-- компилятор MSVC
- - Приложение запускается в любой IDE С++ . После сборки и компиляции получаем два выходных файла search_engine.exe и test_search_engine.exe
-## настройка
-1. В конфигурационном файле config.json перед запуском приложения задаются названия
-файлов, по которым движок будет осуществлять поиск.
-Сами файлы для поиска помещаются в директорию docs.
- Конфигурационные файлы config.json , request.json , answer.json размещены в директории resources.
-3. Пользователь задаёт запрос через JSON-файл requests.json. Запрос — это
-набор слов, по которым нужно найти документы.
-4. Запрос трансформируется в список слов.
-5. В индексе ищутся те документы, на которых встречаются все эти слова.
-6. Результаты поиска ранжируются, сортируются и отдаются пользователю,
-максимальное количество возможных документов в ответе задаётся в
-конфигурационном файле config.json (поле "max_responces") .
-7. В конце программа формирует файл answers.json, в который записывает
-результаты поиска.
-#### тесты 
-Для запуска тестирования приложения запустите test_search_engine.exe
-## пример использования
-в приложении создано три класса : <br>
+- googleTest release-1.12.1
+- Cmake 3.19
+- Compiller MSVC
+ - Die Anwendung wird in jeder C ++ - IDE ausgeführt. Nach dem Erstellen und Kompilieren werden zwei Ausgabedateien search_engine .exe und test_search_engine.exe
+## Konfiguration
+1. In der Konfigurationsdatei config.json-Namen werden vor dem Ausführen der Anwendung angegeben
+  dateien, nach denen die Engine suchen wird.
+  Die zu durchsuchenden Dateien werden im Verzeichnis docs abgelegt.
+  Config-Konfigurationsdateien.json , requests.json , answer.der json befindet sich im resources-Verzeichnis.
+
+3. Der Benutzer legt die Anforderung über die JSON-Datei request.json. Die Anfrage ist
+eine Reihe von Wörtern, nach denen Sie Dokumente finden müssen.
+4. Die Abfrage wird in eine Wortliste umgewandelt.
+5. Im Index werden die Dokumente gesucht, auf denen all diese Wörter vorkommen.
+6. Die Suchergebnisse werden geordnet, sortiert und an den Benutzer weitergegeben,
+die maximale Anzahl möglicher Dokumente in einer Antwort wird in angegeben
+der Konfigurationsdatei config.json (Feld "max_responses") .
+7. Am Ende erstellt das Programm eine Datei answers.json, in den er schreibt
+suchergebnisse.
+#### Tests
+Führen Sie test_search_engine.exe aus, um die Anwendung zu testen
+## beschreibung des Codes
+die Anwendung erstellt drei Klassen : <br>
 >__converterJSON__ <br>
- класс для сериализации и дессиарелизации JSON (работает с конфиг. файлами) <br>
- _содержит ф-ии:_ <br>
-  Метод получения содержимого файлов <br>
-  @return Возвращает список с содержимым файлов перечисленных  в config.json <br>
+ klasse zum Serialisieren und Deserialisieren von JSON (funktioniert mit config. Dateien) <br>
+ _enthält Funktionen:_ <br>
+  - funktion zum Abrufen von Dateiinhalten<br>
+  @return   Gibt eine Liste mit dem Inhalt der in config.json aufgeführten Dateien zurück  <br>
   ___std::vector<std::string> GetTextDocuments();___ <br>
-   Метод получения запросов из файла requests.json <br>
-   @return возвращает список запросов из файла requests.json <br>
+  - Methode zum Abrufen von Anforderungen aus der request.json Datei <br>
+   @return    gibt eine Liste von Anforderungen aus der request.json Datei zurück. <br>
    ___std::vector<std::string> GetRequests();___ <br>
-   Положить в файл answers.json результаты поисковых запросов <br>
+  - suchergebnisse  einfügen in die Datei answer.json <br>
   ___void putAnswers(std::vector<std::vector<std::pair<int, float>>>answers);___<br>
 >>__invertedIndex__ <br>
-Создание инвертированного индекса для документов <br>
-_содержит ф-ии:_ <br>
- Обновить или заполнить базу документов, по которой будем совершать поиск <br>
- @param texts_input содержимое документов <br>
+Erstellen eines invertierten Index für Dokumente <br>
+_enthält Funktionen:_ <br>
+- Aktualisieren oder füllen Sie die Dokumentdatenbank aus, nach der wir suchen werden <br>
+  die Funktion funktioniert im Multithreading
+  
+ @param texts_input inhalt der Dokumente <br>
 ___void UpdateDocumentBase(std::vector<std::string> input_docs);___ <br>
-Метод определяет количество вхождений слова word в загруженной базе документов <br>
- @param word слово, частоту вхождений которого необходимо определить <br>
- @return возвращает подготовленный список с частотой слов <br>
+- die Funktion bestimmt die Anzahl der Vorkommen von Word in der geladenen Dokumentdatenbank <br>
+ @param word das Wort, dessen Häufigkeit bestimmt werden muss<br>
+ @return gibt eine vorbereitete Liste mit der Häufigkeit von Wörtern zurück <br>
  ___std::vector<Entry> GetWordCount(const std::string& word);___<br>
 >>>__Search_server__ <br>
-Реализует систему определения релевантности поискового запроса.<br>
-_содержит ф-ии:_ <br>
-Метод обработки поисковых запросов <br>
-@param queries_input поисковые запросы взятые из файлаrequests.json <br>
- @return возвращает отсортированный список релевантных ответов для заданных запросов <br>
+Implementiert ein System zur Bestimmung der Relevanz einer Suchanfrage.<br>
+_enthält Funktionen:__ <br>
+- funktion zur Bearbeitung von Suchanfragen <br>
+@param queries_input die Suchanfragen stammen aus der request.json -Datei<br>
+ @return gibt eine sortierte Liste relevanter Antworten für die angegebenen Abfragen zurück <br>
 ___std::vector<std::vector<RelativeIndex>> search(const
 std::vector<std::string>& queries_input);___
 
